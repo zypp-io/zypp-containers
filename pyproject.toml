@@ -1,6 +1,25 @@
+# TODO: move main to dockholland and install package from there
 [build-system]
 requires = [
-    "setuptools>=42",
+    "setuptools>=61",
     "wheel"
 ]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "loket"
+version = "0.0.1"
+authors = [
+    {name = "Zypp", email = "hello@zypp.io"}
+]
+readme = "README.md"
+description = "Package for retrieving container parameters"
+keywords = ["python", "containers", "parameters"]
+requires-python = ">=3.9"
+dependencies = ["pandas","sqlalchemy"]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
