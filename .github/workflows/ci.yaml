@@ -1,4 +1,4 @@
-name: Project name # replace me
+name: Zypp containers
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - '!development'
 
 env:
-  PACKAGE_NAME: "src" # replace me!
+  PACKAGE_NAME: "zypp_containers"
 
 jobs:
   build:
