@@ -1,20 +1,17 @@
-<p align="center">
-  <img alt="logo" src="https://www.zypp.io/static/assets/img/logos/zypp/white/500px.png"  width="200"/>
-</p>
+The Zypp Containers package retrieves the container parameters from that have been configured in your data portal. The package operates under the assumption that you have a `Zypp dataportaal` and use the standard datamodel that comes with it.
 
-# Template repository for packages
-Template repository for Zypp projects which eventually will be released as a package. 
-This can be used as an initial template when creating a project on GitHub. 
-Not all folders have to be used when not needed, for example `data` or `docs` can be specific per project.
+The `get_container_params` is the main function in the package. As parameters it accepts the name of the container for which you are trying to retrieve the parameters aswell as the schema under which the container tables can be found in your database. The `schema` parameter has a default value of `dataportaal`. The parameters are returned as a dictionary.
 
-### How to use this template
- 1. When creating a new project on GitHub, you can choose a template project.
- 2. When you cloned the repository, adjust the `setup.cfg` with your own information of the project. Things like name, urls, keywords, author etc.
- 3. Replace the name of the project in `.github/workflows/ci.yaml`.   
- 4. Remove the folders you don't need.
- 5. Optional: rename the `src` folder to the project name.
+### Example
+The below code could be found on the image of the container that you want to run. Originally, the `year` and `category` parameter might have been hardcoded into the script. Now, these can be configured in the database (through your dataportal) and retrieved when the container is started.
 
-### Scripts
-This template contains two utility scripts:
-1. `check_setupcfg_and_requirementst_equal.py` which checks if the requirements in `setup.cfg` and `requirements.txt` are equal. Setup.cfg is leading, but in many cases you want a requirements.txt for testing locally.
-2. `generate_requirements_from_setup.py` can be used to create a new `requirements.txt` from `setup.cfg` to prevent manually copying and pasting.
+```py
+from zypp_containers import get_container_params
+
+def run(year, category):
+  # .....
+
+parameters = get_container_params('afas_consolidation')
+year, category = parameters["year"], parameters["category"]
+run_afas_consolidation(year=year, category=category)
+```
