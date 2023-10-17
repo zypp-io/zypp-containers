@@ -3,7 +3,6 @@ from urllib.parse import quote_plus
 
 import pandas as pd
 from sqlalchemy import create_engine, text
-from sqlalchemy.orm import sessionmaker
 
 
 def create_connection_string():
@@ -24,15 +23,11 @@ def make_engine():
     return engine
 
 
-def execute_query(query):
+def execute_query(engine, query):
     """Executes a query on the database and fetches and returns the result"""
     with engine.connect() as conn:
         result = conn.execute(text(query)).fetchall()
         return result
-
-
-engine = make_engine()
-db_session = sessionmaker(bind=engine)()
 
 
 bool_mapping = {
@@ -74,14 +69,16 @@ def get_container_params(container_name, schema="dataportaal") -> dict:
     """
     Get the parameters for a container from the database by the container name
     """
+    engine = make_engine()
     result = execute_query(
+        engine,
         f"""
                         SELECT * from {schema}.container
                         left join {schema}.container_params on container.container_id = container_params.container_id
                         left join {schema}.container_param_options on
                         container_param_options.param_id = container_params.param_id
                         WHERE container_name = '{container_name}' and chosen_option_id = option_id
-                        """
+                        """,
     )
 
     df = pd.DataFrame(result)
