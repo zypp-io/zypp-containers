@@ -83,6 +83,6 @@ def get_container_params(container_name, schema="dataportaal") -> dict:
 
     df = pd.DataFrame(result)
     df["parsed_param_value"] = df.apply(parse_param, axis=1)
-    params = {row["name"]: row["parsed_param_value"] for _, row in df.iterrows()}
+    params = {row["parameter_name"]: row["parsed_param_value"] for _, row in df.iterrows()}
 
     return params
